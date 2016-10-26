@@ -11,8 +11,10 @@ Eg, for the next 5 files:
 ```
 3. Choose a Bootstrap theme from [Bootswatch][] and set it:  
 Edit *MDViewer.html*  
+Set the theme name:  
+```html
 <xmp theme="**BOOTSWATCH_THEME_NAME_GOES_HERE**" style="display:none;" id="mydata">
-
+```
 ## RUN IT
 Open *MDViewer.html* and select a file 
 
