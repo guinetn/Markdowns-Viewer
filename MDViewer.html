@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>MD Viewer</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="THESIM Cook Book">
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <style>
+    .mdDiv   { font-size: 1.1em; width: 200px; margin:5px; background: #45AEEA; color:white;  border: solid 1px grey; border-radius: 5px; text-align: center; text-overflow: ellipsis;}
+    .mdLink:link, .mdLink:visited, .mdLink:hover { text-decoration: none; font-family: "Telex",sans-serif; }
+    .mdLink:active { color: orange; }
+    .mdDiv:hover { background: white; color: orange; }
+    #mdPages { width:250px;float:left; }
+    .selected { background: red;  }
+    </style>
+</head>
+<body>
+<div id='mdPages'>
+</div>
+
+<xmp theme="cerulean" style="display:none;" id="mydata">
+</xmp>
+
+
+<script>
+
+  var default_md_file = '';
+  $.getJSON("mdlist.json", function (mdPages) {   
+    default_md_file = mdPages[0];
+    
+    for(var p in mdPages) 
+      $('#mdPages').append("<a href='/' class='mdLink'><div class='mdDiv'>" + mdPages[p].replace('.md','') + "</div></a>" );
+     
+     $("a").on("click", function(url) {   
+        localStorage['url'] = url.currentTarget.children[0].innerHTML;
+        window.location = window.location.pathname;
+     });
+    });
+
+  function showMD( url ) {   
+    
+    var md = window.location.pathname;
+    var filename = md.substring(md.lastIndexOf('/')+1);
+    md = md.replace(filename,'');
+    md = 'file://'+ md + "md/" + url + '.md';
+      
+    if (md=='')
+      md = default_md_file; 
+
+    $.get(md, function(data) {      
+        $('#mydata').text(data);
+    }, 'text');
+   
+    // Make slected item red
+    setTimeout( function(){
+      var mdDiv = $('.mdDiv');
+      for(var i=0; i<mdDiv.length; i++)
+      {      
+        if (mdDiv[i].innerHTML==url)                     
+          $(mdDiv[i]).toggleClass('selected');           
+      };       }, 100);
+
+  };
+
+  showMD(localStorage['url']);
+
+</script>
+
+<script src="js/strapdown/strapdown.js" async="false" ></script>
+</body>
+</html>
