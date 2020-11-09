@@ -1,4 +1,4 @@
-# Markdowns-Viewer
+# Markdowns Viewer
 A single html page to visualise listed markdown files (.json config)
 
 ## SETTINGS
@@ -16,10 +16,11 @@ Set the theme name:
 <xmp theme="**BOOTSWATCH_THEME_NAME_GOES_HERE**" style="display:none;" id="mydata">
 ```
 ## RUN IT
-Open *MDViewer.html* and select a file 
+- https://guinetn.github.io/Markdowns-Viewer/MDViewer.html
+- or Open *MDViewer.html* and select a file 
 
 ### TECHNICAL NOTES
 It use only [StrapdownJS][] as md transformer
 
-[StrapdownJS]:http://strapdownjs.com/
-[Bootswatch]:Bootswatch.com
+- [StrapdownJS]:http://strapdownjs.com/
+- [Bootswatch]:Bootswatch.com
