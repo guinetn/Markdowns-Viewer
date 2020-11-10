@@ -2,6 +2,8 @@
 
 Click on a markdown file in a (.json defined) list to render it as true markdown.
 
+![mdiew screenshoot](mdiew.png)
+
 # FEATURES
 - Display a list of files defined in .json
 - Click a file to visualize it as true markdown
