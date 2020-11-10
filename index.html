@@ -5,6 +5,59 @@
     <meta charset="utf-8" />
     <meta name="description" content="Visualize you're md files in true markdown">    
     <style>
+      
+      body {
+        padding: 0;  
+        margin: 0;
+      }
+
+      :root { 
+        --titleColor: #ce1919;
+      }
+
+      .mdiew-title {
+        background-color: var(--titleColor);
+        font-family: monospace;
+        color: white;
+        margin:0;
+        padding: 10px;
+        position: sticky; 
+        top: 0;
+      }
+
+      .mdiew-preview {            
+          border: 1px dotted rgba(116, 108, 108, 0.863);                    
+      }
+
+
+
+
+      .mdiew-nav {
+          position: fixed; 
+          top: 5px;        
+          right:5px;          
+          height: 3em;                    
+          overflow: hidden;       
+      }
+
+      .mdiew-nav:hover {
+          height: 70%;          
+          width:auto;
+          overflow-y: scroll;
+      }
+
+      .mdiew-nav-open {
+        background: transparent url('files.svg') 0 0 no-repeat;                        
+        height: 3em;        
+        position: sticky; 
+        top: 0;
+      }
+      
+      .mdiew-filesList {      
+          border: 1px dotted rgba(71, 68, 68, 0.377);         
+      }
+
+
       .mdDiv  { 
         font-size: 1.1em;
         width: 200px;
@@ -40,13 +93,19 @@
 </head>
 <body>
 
-    <div id='filesList'></div>
-    <div id="preview"></div>
+  <h3 class="mdiew-title">MVIEW</h3>
 
+  <div id="preview" class="mdiew-preview"></div>
+  <nav class="mdiew-nav">
+    <div class="mdiew-nav-open"></div>    
+      <div id='filesList' class="mdiew-filesList"></div>    
+  </nav>
+  
 <script>
 
 const preview = document.querySelector("#preview");
-    
+const title = document.querySelector(".mdiew-title");    
+
 const config = {
   directory: "md/",
   filesList: "md-files.json"
@@ -70,7 +129,7 @@ function getFilesList(mdFiles) {
 }
 
 function fillList(data) {
-  let default_md_file = data.files[0];
+  
   const files = document.querySelector("#filesList");
 
   data.files.forEach(f => {
@@ -93,6 +152,7 @@ function selectFile(event) {
 function transformFile(file, data ) {     
   var converter = new showdown.Converter();
   preview.innerHTML = converter.makeHtml(data);
+  title.innerText = `MVIEW - ${file}`;
   localStorage['lastOpened'] = file;
 }
 
