@@ -1,3 +1,9 @@
-{ 
-  "files": ["abc.md", "def.md", "ghi.md", "jkl.md", "mno.md"] 
+{
+    "files":  [
+                  ".\\md\\abc.md",
+                  ".\\md\\def.md",
+                  ".\\md\\ghi.md",
+                  ".\\md\\jkl.md",
+                  ".\\md\\mno.md"
+              ]
 }

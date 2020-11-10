@@ -1,5 +1,5 @@
 :root { 
-    --titleColor: #ce1919;
+    --headerColor: #ce1919;    
 }
 
 body {
@@ -7,77 +7,68 @@ body {
     margin: 0;
 }
 
-
-
-.mdiew-title {
-    background-color: var(--titleColor);
+.miew-header {
+    background-color: var(--headerColor);
     font-family: monospace;
     color: white;
     margin:0;
     padding: 10px;
     position: sticky; 
     top: 0;
+    box-shadow: inset 0 0 10px 0 #ddd;
+    text-align:center;
 }
 
-.mdiew-preview {            
-    border: 1px dotted rgba(116, 108, 108, 0.863);                    
+.miew-footer {
+    padding: 10px 0 0 10px;
 }
 
+.miew-preview {            
+    border: 1px dotted rgba(116, 108, 108, 0.863);    
+    margin: 0;
+    padding: 20px;    
+}
 
-
-
-.mdiew-nav {
+.miew-nav {
     position: fixed; 
     top: 5px;        
-    right:5px;          
+    right: 50px;          
     height: 3em;                    
     overflow: hidden;       
 }
 
-.mdiew-nav:hover {
+.miew-nav:hover {
     height: 70%;          
     width:auto;
     overflow-y: scroll;
 }
 
-.mdiew-nav-open {
-    background: transparent url('files.svg') 0 0 no-repeat;                        
+.miew-nav-opened {
+    background: transparent url('assets/files.svg') 0 0 no-repeat;                        
     height: 3em;        
     position: sticky; 
     top: 0;
 }
 
-.mdiew-filesList {      
-    border: 1px dotted rgba(71, 68, 68, 0.377);         
+
+.miew-filesList {      
+    border: 1px dotted rgba(71, 68, 68, 0.377);  
+    border-radius: 15px;       
 }
 
-
-.mdDiv  { 
-    font-size: 1.1em;
+.file  { 
+    font-size: 1.2em;
+    font-family: cursive;
     width: 200px;
     margin:5px;
-    background: #45AEEA;
-    color:white;
-    border: solid 1px grey;
-    border-radius: 5px;
+    /*background: var(--fileBkg);    */
     text-align: center;
     text-overflow: ellipsis;
 }
-.mdLink:link, .mdLink:visited, .mdLink:hover { 
-    text-decoration: none;
-    font-family: "Telex",sans-serif;
-}
-.mdLink:active { 
-    color: orange;
-}
-.mdDiv:hover { 
-    background: white;
-    color: orange;
-}
-#mdPages { 
-    width:250px;
-    float:left;
-}
-.selected { 
-    background: red;
+
+.file:hover { 
+    color: var(--headerColor);    
+    border-bottom: solid 1px grey;
+    font-weight: bold;    
+    cursor: pointer;
 }

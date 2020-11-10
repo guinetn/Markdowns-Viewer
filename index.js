@@ -1,8 +1,7 @@
+const header = document.querySelector(".miew-header");
 const preview = document.querySelector("#preview");
-const title = document.querySelector(".mdiew-title");
 
 const config = {
-  directory: "md/",
   filesList: "md-files.json",
 };
 
@@ -27,10 +26,10 @@ function fillList(data) {
   const files = document.querySelector("#filesList");
 
   data.files.forEach((f) => {
-    let a = document.createElement("a");
-    a.setAttribute("href", "/");
-    a.setAttribute("class", "mdLink");
-    a.innerHTML = `<div class='mdDiv'>${f.replace(".md", "")}</div>`;
+    let a = document.createElement("a");    
+    a.className = "mdLink";
+    a.innerHTML = `<div class='file'>${f.split("\\").pop()}</div>`;
+    a.setAttribute("data-file", f)
     a.addEventListener("click", selectFile);
     files.appendChild(a);
   });
@@ -38,14 +37,14 @@ function fillList(data) {
 
 function selectFile(event) {
   event.preventDefault();
-  const fileToRender = `${config.directory}${event.currentTarget.innerText}.md`;
+  const fileToRender = event.currentTarget.getAttribute('data-file');
   getFile(fileToRender, transformFile);
 }
 
 function transformFile(file, data) {
   var converter = new showdown.Converter();
   preview.innerHTML = converter.makeHtml(data);
-  title.innerText = `MVIEW - ${file}`;
+  header.innerText = `MIEW → ${file}`;
   localStorage["lastOpened"] = file;
 }
 
@@ -53,7 +52,9 @@ function getFile(file, callback) {
   fetch(file)
     .then(function (response) {
       if (!response.ok) {
-        throw new Error(`HTTP error on ${file}. Status:${response.status}`);
+         const err = `HTTP error on ${file}. Status:${response.status}`;
+         preview.innerHTML =  err;
+         throw new Error(err);
       }
       return response.blob();
     })
@@ -65,11 +66,15 @@ function getFile(file, callback) {
           callback(file, event.target.result);
         };
       } else {
-        console.log(`HTTP exception on ${file}`);
+        const err = `HTTP exception on ${file}`;
+        preview.innerHTML = err;
+        console.log(err);
       }
       reader.readAsText(myBlob);
     })
     .catch(function (error) {
-      console.log(`HTTP exception on ${file}. ${error}`);
+       const err = `HTTP exception on ${file}. ${error}`;
+       preview.innerHTML = err;
+       console.log(err);
     });
 }

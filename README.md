@@ -1,8 +1,8 @@
-# Mdiew: Markdowns Viewer
+# Miew: Markdowns Viewer
 
 Click on a markdown file in a (.json defined) list to render it as true markdown.
 
-![mdiew screenshoot](mdiew.png)
+![miew screenshoot](assets/miew.png)
 
 # FEATURES
 - Display a list of files defined in .json
@@ -20,15 +20,23 @@ Eg, for the next 5 files:
 }
 ```
 
+I create a generator to produce the .json file containing the list of the .md files you want to see:
+>.\generate_json.ps1 $PWD/md
+>.\generate_json.ps1 $PWD/md "md-files.json" 
+> 1st arg: Folder to explore (must be in the current ($pwd) folder
+> 2nd (optional) arg: output filename)
+
 ## START
 
-- ***Try it online***: https://guinetn.github.io/Mdiew/index.html  
-- From VSCode  
+- ***Try it online***: https://guinetn.github.io/Miew/index.html  
+- or , from VSCode:  
 > Open index.html  
-> Click on status bar "Go live" or  
-> On index.html, right-click → Open with [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)  
+> Click on status bar "Go live", this will run [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)  
 
 ### TECHNICAL NOTES
 
+- **md-files.json** file contains the relative paths to the .md files
+
 It use only Showdown for the md to html transformation
 > [Showdown, A JS Markdown to HTML bidirectional converter](http://showdownjs.com)
+
