@@ -1,26 +1,24 @@
-# Markdowns Viewer
-A single html page to visualise listed markdown files (.json config)
+# Mdiew: Markdowns Viewer
+
+Click on a markdown file in a (.json defined) list to render it as true markdown.
 
 ## SETTINGS
 1. Put your .md files in the /md folder
 2. Add the list of these md files into *mdlist.json*  
 Eg, for the next 5 files:
 
-```js
- ["abc.md", "def.md", "ghi.md", "jkl.md", "mno.md"]
+```json
+{ 
+  "files: ["abc.md", "def.md", "ghi.md", "jkl.md", "mno.md"] 
+}
 ```
-3. Choose a Bootstrap theme from [Bootswatch][] and set it:  
-Edit *MDViewer.html*  
-Set the theme name:  
-```html
-<xmp theme="**BOOTSWATCH_THEME_NAME_GOES_HERE**" style="display:none;" id="mydata">
-```
+
 ## RUN IT
-- https://guinetn.github.io/Markdowns-Viewer/MDViewer.html
-- or Open *MDViewer.html* and select a file 
+- https://guinetn.github.io/Mdiew/index.html
+- or Open *index.html*, a basic server is needed (Liveserver, a Vscode Extension)
 
 ### TECHNICAL NOTES
-It use only [StrapdownJS][] as md transformer
 
-- [StrapdownJS]:http://strapdownjs.com/
-- [Bootswatch]:Bootswatch.com
+It use only Showdown for the md to html transformation
+> [Showdown, A JS Markdown to HTML bidirectional converter](http://showdownjs.com)
+
