@@ -1,43 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MD Viewer</title>
+    <title>MD files Viewer</title>
     <meta charset="utf-8" />
-    <meta name="description" content="MD files viewer">    
+    <meta name="description" content="Visualize you're md files in true markdown">    
     <style>
-      .mdDiv   { font-size: 1.1em; width: 200px; margin:5px; background: #45AEEA; color:white;  border: solid 1px grey; border-radius: 5px; text-align: center; text-overflow: ellipsis;}
-      .mdLink:link, .mdLink:visited, .mdLink:hover { text-decoration: none; font-family: "Telex",sans-serif; }
-      .mdLink:active { color: orange; }
-      .mdDiv:hover { background: white; color: orange; }
-      #mdPages { width:250px;float:left; }
-      .selected { background: red;  }
+      .mdDiv  { 
+        font-size: 1.1em;
+        width: 200px;
+        margin:5px;
+        background: #45AEEA;
+        color:white;
+        border: solid 1px grey;
+        border-radius: 5px;
+        text-align: center;
+        text-overflow: ellipsis;
+      }
+      .mdLink:link, .mdLink:visited, .mdLink:hover { 
+        text-decoration: none;
+        font-family: "Telex",sans-serif;
+       }
+      .mdLink:active { 
+        color: orange;
+       }
+      .mdDiv:hover { 
+        background: white;
+        color: orange;
+       }
+      #mdPages { 
+        width:250px;
+        float:left;
+       }
+      .selected { 
+        background: red;
+      }
     </style>    
 
     <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
 </head>
 <body>
 
-<div id='files'>
-</div>
-
-<div id="preview"></div>
+    <div id='filesList'></div>
+    <div id="preview"></div>
 
 <script>
 
-const config = {
-  directory: "md/"
-}
-
 const preview = document.querySelector("#preview");
-
-function loadFiles() {
-  fetch('mdlist.json')
-    .then(res=>res.json())
-      .then(data => fillList(data));    
+    
+const config = {
+  directory: "md/",
+  filesList: "md-files.json"
 }
+   
+init();
+    
+function init() {    
+    getFilesList(config.filesList);
+}
+
+function getFilesList(mdFiles) {
+  fetch(mdFiles)
+    .then(res=>res.json())
+      .then(data => fillList(data))
+          .catch(function (err) {
+	      	   preview.innerHTML = `<h2>Something went wrong with '${mdFiles}:<br>${err}'</h2>`;
+          });   
+}
+
 function fillList(data) {
   let default_md_file = data.files[0];
-  const files = document.querySelector("#files");
+  const files = document.querySelector("#filesList");
 
   data.files.forEach(f => {
     let a = document.createElement("a");
@@ -52,15 +84,13 @@ function fillList(data) {
 
 function selectFile(event) {
   event.preventDefault();
-  getFile(`${config.directory}${event.currentTarget.innerText}.md`, showMD);
+  const fileToRender = `${config.directory}${event.currentTarget.innerText}.md`;
+  getFile(fileToRender, transformFile);
 }
 
-function showMD(file, data ) {   
-  preview.innerHTML = data;
-  
+function transformFile(file, data ) {     
   var converter = new showdown.Converter();
   preview.innerHTML = converter.makeHtml(data);
-
 }
 
 function getFile(file, callback) {
@@ -91,8 +121,7 @@ function getFile(file, callback) {
   });
 }
 
-loadFiles();
 </script>
-    
+
 </body>
 </html>
