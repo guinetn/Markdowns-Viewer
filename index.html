@@ -56,6 +56,8 @@ init();
     
 function init() {    
     getFilesList(config.filesList);
+    if (localStorage['lastOpened'] != null )
+      getFile(localStorage['lastOpened'], transformFile); 
 }
 
 function getFilesList(mdFiles) {
@@ -91,6 +93,7 @@ function selectFile(event) {
 function transformFile(file, data ) {     
   var converter = new showdown.Converter();
   preview.innerHTML = converter.makeHtml(data);
+  localStorage['lastOpened'] = file;
 }
 
 function getFile(file, callback) {
