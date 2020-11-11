@@ -11,10 +11,10 @@ by a succint powershell script. Deploy it to github pages, you won't need a serv
 - Reopen last opened file at startup (localstorage)
 - A tool is available to import files list into the .json file
 - Commands:
-> Press key [F]: Change font  
-> Press key [S]: Change font size
-> Press key [C]: Show previous file (move up in the file list)
-> Press key [V]: Show next file (move down in the file list)
+> Press key [F]: Change font   
+> Press key [S]: Change font size  
+> Press key [C]: Show previous file (move up in the file list)  
+> Press key [V]: Show next file (move down in the file list)  
 
 ## SETTINGS
 1. Put your .md files in a folder, e.g. '/md' folder
