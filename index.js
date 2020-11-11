@@ -1,16 +1,25 @@
 const header = document.querySelector(".miew-header");
+const settings = document.querySelector(".miew-settings");
 const preview = document.querySelector("#preview");
 
 const config = {
   filesList: "md-files.json",
+  fonts: "monospace sans-serif system-ui cursive none sans-serif",
+  fontSizes: "large larger small smaller medium x-large x-small unset",
+  currentFont: "",
+  currentFontSize: ""
 };
 
 init();
 
 function init() {
+  showdown.setFlavor('github');
   getFilesList(config.filesList);
   if (localStorage["lastOpened"] != null)
     getFile(localStorage["lastOpened"], transformFile);
+
+  restoreSettings();
+  document.addEventListener("keypress", changeSettings);
 }
 
 function getFilesList(mdFiles) {
@@ -34,6 +43,73 @@ function fillList(data) {
     files.appendChild(a);
   });
 }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+function restoreSettings() {
+  
+  config.currentFont = localStorage["fontFamily"];
+  config.currentFontSize = localStorage["fontSize"];
+
+  if (config.currentFont != null) {
+    preview.setAttribute( "data-font", config.fonts.split(" ").indexOf(config.currentFont) - 1 );
+    setFontFamily(config.fonts, "font");
+  }
+  
+  if (config.currentFontSize != null) {
+    preview.setAttribute("data-size", config.fontSizes.split(" ").indexOf(config.currentFontSize) - 1);
+    setFontSize(config.fontSizes, "size");
+  }  
+
+  showSettings();
+}
+
+function changeSettings(event) {
+  
+  switch(event.key.toUpperCase())
+  {
+    case 'F':
+        config.currentFont = setFontFamily(config.fonts, 'font');
+        break;
+      case 'S':
+        config.currentFontSize = setFontSize(config.fontSizes, "size");
+        break;
+  }
+
+  showSettings();
+}
+
+function showSettings() {
+    settings.innerHTML = `${config.currentFont} ${config.currentFontSize}`;
+}
+
+function increaseProperty(elements, property) {
+  const pName = `data-${property}`;
+  let currentIndex = parseInt(preview.getAttribute(pName));
+  currentIndex = currentIndex >= elements.length - 1 ? 0 : currentIndex + 1;
+  preview.setAttribute(pName, currentIndex);
+  return currentIndex;
+}
+
+function setFontFamily(fontsAvailable, property) {
+  const fonts = fontsAvailable.split(" ");
+  let fontIndex = increaseProperty(fonts, property);
+  const selectedFont = fonts[fontIndex];
+  preview.style.fontFamily = selectedFont;  
+  localStorage["fontFamily"] = selectedFont;
+  return selectedFont;
+}
+
+function setFontSize(fontSizes, property) {
+   const sizes = fontSizes.split(" ");
+   let sizeIndex = increaseProperty(sizes, property);
+   const selectedSize = sizes[sizeIndex];
+   preview.style.fontSize = selectedSize;  
+   localStorage["fontSize"] = selectedSize;
+   return selectedSize;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 function selectFile(event) {
   event.preventDefault();

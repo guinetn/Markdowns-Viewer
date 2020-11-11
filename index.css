@@ -26,7 +26,8 @@ body {
 .miew-preview {            
     border: 1px dotted rgba(116, 108, 108, 0.863);    
     margin: 0;
-    padding: 20px;    
+    padding: 20px;   
+    font-size: smaller;     
 }
 
 .miew-nav {
@@ -50,18 +51,29 @@ body {
     top: 0;
 }
 
+.miew-settings {        
+        width: 20%;
+        height: 1.8 em;
+        position: fixed;
+        top: 0;
+        left:65%;
+        color: rgb(228, 228, 180);
+        font-size: small;
+        font-family: cursive;    
+        cursor: help;    
+}
 
 .miew-filesList {      
     border: 1px dotted rgba(71, 68, 68, 0.377);  
     border-radius: 15px;       
+    background-color: white;
 }
 
 .file  { 
-    font-size: 1.2em;
+    font-size: 0.7em;
     font-family: cursive;
     width: 200px;
     margin:5px;
-    /*background: var(--fileBkg);    */
     text-align: center;
     text-overflow: ellipsis;
 }
