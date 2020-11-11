@@ -69,7 +69,7 @@ body {
     background-color: white;
 }
 
-.file  { 
+.miew-file  { 
     font-size: 0.7em;
     font-family: cursive;
     width: 200px;
@@ -78,7 +78,7 @@ body {
     text-overflow: ellipsis;
 }
 
-.file:hover { 
+.miew-file:hover { 
     color: var(--headerColor);    
     border-bottom: solid 1px grey;
     font-weight: bold;    

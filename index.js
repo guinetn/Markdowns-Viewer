@@ -5,7 +5,7 @@ const preview = document.querySelector("#preview");
 const config = {
   jsonfile: "md-files.json",
   files: [],  
-  fileCurrent: 0,
+  currentFile: 0,
   fonts: "monospace sans-serif system-ui cursive none sans-serif",
   fontSizes: "large larger small smaller medium x-large x-small unset",
   currentFont: "",
@@ -19,7 +19,11 @@ function init() {
   showdown.setFlavor('github');
   
   getJson(config.jsonfile);
-  
+          
+  // Event deelegation for files
+  document.querySelector("#filesList").addEventListener("click", selectFile);
+          
+
   if (localStorage["lastOpened"] != null)
     getFile(localStorage["lastOpened"], transformFile);
 
@@ -42,13 +46,12 @@ function fillList(data) {
   config.files = data.files;
   const filesContainer = document.querySelector("#filesList");
 
-  data.files.forEach((f) => {
-    let a = document.createElement("a");    
-        a.className = "mdLink";
-        a.innerHTML = `<div class='file'>${f.split("\\").pop()}</div>`;
-        a.setAttribute("data-file", f)
-        a.addEventListener("click", selectFile);
-    filesContainer.appendChild(a);
+  data.files.forEach((file) => {
+    let div = document.createElement("div");            
+        div.setAttribute("data-file", file);
+        div.className = "miew-file";
+        div.innerText = `${file.split("\\").pop()}`;
+    filesContainer.appendChild(div);
   });
 }
 
@@ -82,10 +85,10 @@ function changeSettings(event) {
       config.currentFontSize = setFontSize(config.fontSizes, "size");
       break;
     case "C":
-      config.fileCurrent = navigateToFile(-1);
+      config.currentFile = navigateToFile(-1);
       break;
     case "V":
-      config.fileCurrent = navigateToFile(+1);
+      config.currentFile = navigateToFile(+1);
       break;
   }
 
@@ -93,18 +96,20 @@ function changeSettings(event) {
 }
 
 function showSettings() {
-    settings.innerHTML = `${config.currentFont??""} ${config.currentFontSize??""}`;
+    settings.innerHTML = `${
+      config.currentFont == undefined ? "" : config.currentFont
+    } ${config.currentFontSize == undefined ? "" : config.currentFontSize}`;
 }
 
 function navigateToFile(updown) {
-  config.fileCurrent+=updown;
+  config.currentFile+=updown;
   // Limits
-  if (config.fileCurrent < 0)
-    config.fileCurrent = config.files.length-1;  
-  if (config.fileCurrent >= config.files.length)
-    config.fileCurrent = 0;   
+  if (config.currentFile < 0)
+    config.currentFile = config.files.length-1;  
+  if (config.currentFile >= config.files.length)
+    config.currentFile = 0;   
 
-  getFile(config.files[config.fileCurrent], transformFile);  
+  getFile(config.files[config.currentFile], transformFile);  
 }
 
 
@@ -138,7 +143,7 @@ function setFontSize(fontSizes, property) {
 
 function selectFile(event) {
   event.preventDefault();
-  const fileToRender = event.currentTarget.getAttribute('data-file');
+  const fileToRender = event.target.getAttribute('data-file');
   getFile(fileToRender, transformFile);
 }
 
@@ -151,7 +156,7 @@ function transformFile(file, data) {
   // Store current status
   header.innerText = `MIEW → ${file}`;
   localStorage["lastOpened"] = file;
-  config.fileCurrent = config.files.indexOf(file);
+  config.currentFile = config.files.indexOf(file);
 }
 
 function getFile(file, callback) {
