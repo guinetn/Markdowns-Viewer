@@ -1,7 +1,7 @@
 # Miew: Markdowns Viewer
 
 A one click markdown to html file translator. The interface list the available files, enumerated in a simple .json file created
-by a succint powershell script.
+by a succint powershell script. Deploy it to github pages, you won't need a server and you're wiki is on the way!
 
 ![miew screenshoot](assets/miew.png)
 
@@ -13,6 +13,8 @@ by a succint powershell script.
 - Commands:
 > Press key [F]: Change font  
 > Press key [S]: Change font size
+> Press key [C]: Show previous file (move up in the file list)
+> Press key [V]: Show next file (move down in the file list)
 
 ## SETTINGS
 1. Put your .md files in a folder, e.g. '/md' folder
@@ -27,7 +29,7 @@ I create a generator to produce the .json file containing the list of the .md fi
 >.\generate_json.ps1 $PWD/md  
 >.\generate_json.ps1 $PWD/md "md-files.json"   
 > * 1st arg: folder to explore (must be a subfolder of the current ($pwd) folder)
-> * 2nd (optional) arg: output filename)  
+> * 2nd (optional) arg: output filename  
 
 ## START
 
@@ -43,4 +45,3 @@ I create a generator to produce the .json file containing the list of the .md fi
 - It use ShowdownJS for the md to html transformation
 > [Showdown: A JS Markdown to HTML bidirectional converter](http://showdownjs.com)
 
-- Use github pages hosting, you won't need a server!

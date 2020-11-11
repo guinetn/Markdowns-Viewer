@@ -3,7 +3,9 @@ const settings = document.querySelector(".miew-settings");
 const preview = document.querySelector("#preview");
 
 const config = {
-  filesList: "md-files.json",
+  jsonfile: "md-files.json",
+  files: [],  
+  fileCurrent: 0,
   fonts: "monospace sans-serif system-ui cursive none sans-serif",
   fontSizes: "large larger small smaller medium x-large x-small unset",
   currentFont: "",
@@ -13,34 +15,40 @@ const config = {
 init();
 
 function init() {
+
   showdown.setFlavor('github');
-  getFilesList(config.filesList);
+  
+  getJson(config.jsonfile);
+  
   if (localStorage["lastOpened"] != null)
     getFile(localStorage["lastOpened"], transformFile);
 
   restoreSettings();
+  
   document.addEventListener("keypress", changeSettings);
 }
 
-function getFilesList(mdFiles) {
-  fetch(mdFiles)
+function getJson(jsonfile) {    
+  fetch(jsonfile)
     .then((res) => res.json())
-    .then((data) => fillList(data))
+    .then((jsonContent) => fillList(jsonContent))
     .catch(function (err) {
-      preview.innerHTML = `<h2>Something went wrong with '${mdFiles}:<br>${err}'</h2>`;
+      preview.innerHTML = `<h2>Something went wrong with '${jsonfile}:<br>${err}'</h2>`;
     });
 }
 
 function fillList(data) {
-  const files = document.querySelector("#filesList");
+  
+  config.files = data.files;
+  const filesContainer = document.querySelector("#filesList");
 
   data.files.forEach((f) => {
     let a = document.createElement("a");    
-    a.className = "mdLink";
-    a.innerHTML = `<div class='file'>${f.split("\\").pop()}</div>`;
-    a.setAttribute("data-file", f)
-    a.addEventListener("click", selectFile);
-    files.appendChild(a);
+        a.className = "mdLink";
+        a.innerHTML = `<div class='file'>${f.split("\\").pop()}</div>`;
+        a.setAttribute("data-file", f)
+        a.addEventListener("click", selectFile);
+    filesContainer.appendChild(a);
   });
 }
 
@@ -66,22 +74,39 @@ function restoreSettings() {
 
 function changeSettings(event) {
   
-  switch(event.key.toUpperCase())
-  {
-    case 'F':
-        config.currentFont = setFontFamily(config.fonts, 'font');
-        break;
-      case 'S':
-        config.currentFontSize = setFontSize(config.fontSizes, "size");
-        break;
+  switch (event.key.toUpperCase()) {
+    case "F":
+      config.currentFont = setFontFamily(config.fonts, "font");
+      break;
+    case "S":
+      config.currentFontSize = setFontSize(config.fontSizes, "size");
+      break;
+    case "C":
+      config.fileCurrent = navigateToFile(-1);
+      break;
+    case "V":
+      config.fileCurrent = navigateToFile(+1);
+      break;
   }
 
   showSettings();
 }
 
 function showSettings() {
-    settings.innerHTML = `${config.currentFont} ${config.currentFontSize}`;
+    settings.innerHTML = `${config.currentFont??""} ${config.currentFontSize??""}`;
 }
+
+function navigateToFile(updown) {
+  config.fileCurrent+=updown;
+  // Limits
+  if (config.fileCurrent < 0)
+    config.fileCurrent = config.files.length-1;  
+  if (config.fileCurrent >= config.files.length)
+    config.fileCurrent = 0;   
+
+  getFile(config.files[config.fileCurrent], transformFile);  
+}
+
 
 function increaseProperty(elements, property) {
   const pName = `data-${property}`;
@@ -118,10 +143,15 @@ function selectFile(event) {
 }
 
 function transformFile(file, data) {
+  
+  // Transform md → html
   var converter = new showdown.Converter();
   preview.innerHTML = converter.makeHtml(data);
+
+  // Store current status
   header.innerText = `MIEW → ${file}`;
   localStorage["lastOpened"] = file;
+  config.fileCurrent = config.files.indexOf(file);
 }
 
 function getFile(file, callback) {
