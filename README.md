@@ -1,7 +1,7 @@
 # Miew: Markdowns Viewer
 
-A one click markdown to html file translator. The interface list the available files, enumerated in a simple .json file created
-by a succint powershell script. Deploy it to github pages, you won't need a server and you're wiki is on the way!
+Online 'one click' markdown to html file translator. The web interface list the available files, enumerated in a simple .json file created
+by a short powershell script. Deploy this site to github pages and you're wiki is on the way!
 
 ![miew screenshoot](assets/miew.png)
 
@@ -33,7 +33,7 @@ I create a generator to produce the .json file containing the list of the .md fi
 
 ## START
 
-- ***Try it online***: https://guinetn.github.io/Miew/index.html  
+- ***Try it online***: https://guinetn.github.io/miew/index.html  
 - or , from VSCode:  
 > Open index.html  
 > Click on status bar "Go live", this will run [LiveServer, a VSCode extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)  
